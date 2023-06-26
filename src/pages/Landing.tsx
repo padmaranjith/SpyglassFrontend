@@ -1,29 +1,37 @@
-import { useGetUserInfoQuery } from "../api/goalApi"
-import { useState } from 'react';
-import { Link,useNavigate } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { Button, Container, Typography } from "@mui/material";
 
-export default function Landing(){
-    
-    const navigate = useNavigate();
-
-    const { data :userData, refetch,isSuccess } = useGetUserInfoQuery();
-    const handleLogin = () => {
-        console.log("Login clicked")
-        refetch();
-         if(isSuccess){
-            window.localStorage.setItem('username',userData.given_name)
-            navigate('/userinfo');
-         }
-       
-        };
-   
-return(
+export default function Landing() {
+  return (
     <>
-    <h3>Plan for your life</h3>
-    
-    <Button onClick={handleLogin} >Log In with Google</Button>
-      
+      <div>
+        <Container maxWidth="lg">
+          <Typography variant="h2" component="h1" sx={{ display: "inline" }}>
+            Financial Goal Planner
+          </Typography>
+          <Typography variant="h5">
+            Plan, track, and achieve your financial goals with ease.
+          </Typography>
+
+          <Typography
+            variant="h5"
+            sx={{ display: "flex", alignItems: "center", gap: "16px" }}
+          >
+            Let's get Started
+            <Button
+              variant="contained"
+              color="warning"
+              size="large"
+              onClick={() =>
+                window.location.replace("http://localhost:5000/signin")
+              }
+            >
+              Login with Google
+            </Button>
+          </Typography>
+        </Container>
+      </div>
+
+      <Button></Button>
     </>
-)
+  );
 }
