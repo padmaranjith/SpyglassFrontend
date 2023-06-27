@@ -1,10 +1,8 @@
-name: Deploy SpyGlass React
-
+name: Deploy Spyglass
 on:
   push:
     branches:
       - master
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,3 +21,9 @@ jobs:
       
       - name: Deploy app build to S3 bucket
         run: aws s3 sync ./dist/ s3://spyglass-project3 --delete
+        
+
+
+
+
+
