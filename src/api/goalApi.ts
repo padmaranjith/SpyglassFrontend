@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+
 //Define the User Data
 export type UserData={
     given_name: string;
@@ -15,9 +16,9 @@ export type GoalData={
     goalName:string;
     description:string;
     targetDate:string;
-    targetAmount:string;
-    savedamount:string;
-    GoalImageUrl:string;
+    targetAmount:number;
+    savedamount:number;
+    goalImageUrl:string;
 }
 
 export type Image={
@@ -58,7 +59,13 @@ export const goalApi=createApi({
                     
                 }
             }
-        })
+        }),
+        getAllGoalsByUserId:builder.query<GoalData[],void>({
+            query: () => '/goal',
+        }),
+        getGoalById:builder.query<GoalData,number>({
+            query: (goalId) => `/goal/${goalId}/`,
+          }), 
 
     }),
 });
@@ -67,5 +74,7 @@ export const{
 useCreateGoalMutation,
 useGetAllImagesQuery,
 useGetUserInfoQuery,
-useLogoutMutation
+useLogoutMutation,
+useGetAllGoalsByUserIdQuery,
+useGetGoalByIdQuery
 }=goalApi;
