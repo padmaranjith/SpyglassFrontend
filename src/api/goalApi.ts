@@ -28,11 +28,12 @@ export type Image={
     imageUrl:string;
 }
 
-//const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = import.meta.env.VITE_API_URL;
 export const goalApi=createApi({
     reducerPath:'goalApi',
     baseQuery: fetchBaseQuery({
-        baseUrl:"http://localhost:5000",
+        //baseUrl:"http://localhost:5000",
+        baseUrl:apiUrl,
         credentials:'include',
        
     }),

@@ -69,7 +69,7 @@ export default function Landing() {
 
             <Box sx={{ flex: "1.25" }}>
               <img
-                src={homeImg}
+                src="https://sg-project3img-bucket.s3.amazonaws.com/Homepageimg.jpg"
                 alt="HomePageImg"
                 style={{
                   marginTop: "5rem",
