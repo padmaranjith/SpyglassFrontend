@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import {
   Card,
@@ -89,6 +90,7 @@ export default function CreateGoals() {
     formState: { errors },
   } = useForm();
 
+  const navigate = useNavigate();
   //Function to handle on opening the dialog
   const handleClickOpen = () => {
     setOpen(true);
@@ -121,156 +123,162 @@ export default function CreateGoals() {
       //close the dialog once it is submitted
       setOpen(false);
       // Handle success
+      navigate("/goal");
     } catch (error) {
       // Handle error
       console.log("Error creating the goal");
     }
   };
+  const filteredImages = images?.filter(
+    (image) => image.imageName !== "HomePageImg"
+  );
+
+  const isButtonDisabled = !selectedImageUrl;
 
   return (
-    <div>
-      <Box>
+    <Box marginLeft={40} marginTop={5}>
+      <Box mt={4} display="flex" justifyContent="space-between">
         <Typography variant="h5" gutterBottom>
           Select your goal type
-        </Typography>
-        <Box border={1} borderColor="primary.main" p={2} mt={2}>
-          <Grid container spacing={2} justifyContent="center">
-            {images?.map((image: Image, index) => (
-              <Grid item xs={3} sm={4} key={index}>
-                <Card
-                  key={image.imageUrl}
-                  onClick={() =>
-                    handleCardClick(image.imageUrl, image.imageName)
-                  }
-                  sx={{
-                    border:
-                      selectedImageUrl === image.imageUrl
-                        ? "2px solid blue"
-                        : "none",
-                    height: "100%",
-                  }}
-                >
-                  <CardMedia
-                    component="img"
-                    image={image.imageUrl}
-                    alt={image.imageName}
-                    style={{ objectFit: "cover", flexGrow: 1 }} // Set the desired height of the image
-                  />
-                  <CardContent>
-                    <Typography component="div">{image.imageName}</Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-        <Box mt={4} display="flex" justifyContent="center">
-          <Button variant="outlined" onClick={handleClickOpen}>
-            Create New Goal
-          </Button>
-        </Box>
-
-        <BootstrapDialog
-          onClose={handleClose}
-          aria-labelledby="customized-dialog-title"
-          open={open}
-        >
-          <BootstrapDialogTitle
-            id="customized-dialog-title"
-            onClose={handleClose}
+          <Button
+            sx={{ marginLeft: 45 }}
+            variant="outlined"
+            onClick={handleClickOpen}
+            disabled={isButtonDisabled}
           >
             Create New Goal
-          </BootstrapDialogTitle>
-          <DialogContent dividers>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              {selectedImageUrl && (
-                <Box display="flex" alignItems="center" marginRight={2}>
-                  <Box width={100} height={100} marginRight={2}>
-                    <img
-                      src={selectedImageUrl}
-                      alt="Selected Goal"
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                      }}
-                    />
-                  </Box>
-                  <Typography variant="h4">{selectedImageName}</Typography>
-                </Box>
-              )}
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "1rem",
+          </Button>
+        </Typography>
+      </Box>
+      <Box border={1} borderColor="primary.main" p={2} mt={2} marginRight={10}>
+        <Grid display={"flex"} container spacing={2} justifyContent="center">
+          {filteredImages?.map((image: Image, index) => (
+            <Grid item xs={3} sm={4} key={index}>
+              <Card
+                key={image.imageUrl}
+                onClick={() => handleCardClick(image.imageUrl, image.imageName)}
+                sx={{
+                  border:
+                    selectedImageUrl === image.imageUrl
+                      ? "2px solid blue"
+                      : "none",
                 }}
               >
-                {selectedImageUrl && (
-                  <input
-                    type="hidden"
-                    value={selectedImageUrl}
-                    {...register("goalImageUrl")}
-                  />
-                )}
-                <TextField
-                  id="standard-basic"
-                  variant="standard"
-                  label="Goal Name"
-                  {...register("goalName", { required: true })}
-                  error={!!errors.goalName}
-                  helperText={errors.goalName && "Goal Name is required"}
+                <CardMedia
+                  component="img"
+                  image={image.imageUrl}
+                  alt={image.imageName}
+                  style={{ objectFit: "cover", flexGrow: 1 }} // Set the desired height of the image
                 />
-                <TextField
-                  id="standard-basic"
-                  variant="standard"
-                  label="Description"
-                  {...register("description", { required: true })}
-                  error={!!errors.description}
-                  helperText={errors.description && "Description is required"}
-                />
-
-                <TextField
-                  id="standard-basic"
-                  variant="standard"
-                  label="Target Date"
-                  type="date"
-                  {...register("targetDate", { required: true })}
-                  error={!!errors.targetDate}
-                  helperText={errors.targetDate && "targetDate is required"}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  inputProps={{
-                    min: currentDate,
-                  }}
-                />
-                <TextField
-                  id="standard-basic"
-                  variant="standard"
-                  label="Target Amount"
-                  {...register("targetAmount", { required: true })}
-                  error={!!errors.targetAmount}
-                  helperText={errors.targetAmount && "Descriptionis required"}
-                />
-              </div>
-            </form>
-          </DialogContent>
-          <DialogActions>
-            <DialogActions>
-              <Button onClick={handleClose}>Cancel</Button>
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                onClick={handleSubmit(onSubmit)}
-              >
-                Submit
-              </Button>
-            </DialogActions>
-          </DialogActions>
-        </BootstrapDialog>
+                <CardContent>
+                  <Typography component="div">{image.imageName}</Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
       </Box>
-    </div>
+
+      <BootstrapDialog
+        onClose={handleClose}
+        aria-labelledby="customized-dialog-title"
+        open={open}
+      >
+        <BootstrapDialogTitle
+          id="customized-dialog-title"
+          onClose={handleClose}
+        >
+          Create New Goal
+        </BootstrapDialogTitle>
+        <DialogContent dividers>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {selectedImageUrl && (
+              <Box display="flex" alignItems="center" marginRight={2}>
+                <Box width={100} height={100} marginRight={2}>
+                  <img
+                    src={selectedImageUrl}
+                    alt="Selected Goal"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                </Box>
+                <Typography variant="h4">{selectedImageName}</Typography>
+              </Box>
+            )}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "1rem",
+              }}
+            >
+              {selectedImageUrl && (
+                <input
+                  type="hidden"
+                  value={selectedImageUrl}
+                  {...register("goalImageUrl")}
+                />
+              )}
+              <TextField
+                id="standard-basic"
+                variant="standard"
+                label="Goal Name"
+                {...register("goalName", { required: true })}
+                error={!!errors.goalName}
+                helperText={errors.goalName && "Goal Name is required"}
+              />
+              <TextField
+                id="standard-basic"
+                variant="standard"
+                label="Description"
+                {...register("description", { required: true })}
+                error={!!errors.description}
+                helperText={errors.description && "Description is required"}
+              />
+
+              <TextField
+                id="standard-basic"
+                variant="standard"
+                label="Target Date"
+                type="date"
+                {...register("targetDate", { required: true })}
+                error={!!errors.targetDate}
+                helperText={errors.targetDate && "targetDate is required"}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputProps={{
+                  min: currentDate,
+                }}
+              />
+              <TextField
+                id="standard-basic"
+                variant="standard"
+                label="Target Amount"
+                {...register("targetAmount", { required: true })}
+                error={!!errors.targetAmount}
+                helperText={errors.targetAmount && "Descriptionis required"}
+              />
+            </div>
+          </form>
+        </DialogContent>
+        <DialogActions>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              onClick={handleSubmit(onSubmit)}
+            >
+              Submit
+            </Button>
+          </DialogActions>
+        </DialogActions>
+      </BootstrapDialog>
+    </Box>
   );
 }

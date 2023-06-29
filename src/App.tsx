@@ -6,6 +6,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CreateGoals from "./pages/CreateGoals";
 import GoalDetails from "./pages/GoalDetails";
+import Sidebar from "./components/Sidebar";
 
 const theme = createTheme({
   palette: {
@@ -21,6 +22,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <NavBar />
+        <Sidebar />
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/creategoal" element={<CreateGoals />} />

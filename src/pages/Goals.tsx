@@ -7,11 +7,51 @@ import {
   Box,
   Typography,
   Slider,
+  CardActions,
+  IconButton,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import { FaEdit as Edit } from "react-icons/fa";
+import { AiTwotoneDelete as Delete } from "react-icons/ai";
+
+import DeleteModal from "../components/DeleteModal";
+import { useState } from "react";
+import EditModal from "../components/EditModal";
 
 export default function Goals() {
   const { data: goals } = useGetAllGoalsByUserIdQuery();
+
+  //Edit and Delete dialog
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+
+  //set goal data to edit and delete
+  const [editGoal, setEditGoal] = useState<GoalData>();
+  const [deleteGoal, setDeleteGoal] = useState<GoalData | undefined>();
+
+  const handleEditClick = (goal: GoalData) => {
+    setEditGoal(goal);
+    setEditModalOpen(true);
+    console.log("From edit goal goals page:", goal);
+
+    console.log("editGoal from goals page:", editGoal);
+  };
+
+  const handleDeleteClick = (goal: GoalData) => {
+    setDeleteGoal(goal);
+    setDeleteModalOpen(true);
+    console.log("From delete goal:", goal);
+
+    console.log("delet:", deleteGoal);
+  };
+
+  const handleEditModalSave = () => {
+    console.log("edit save clicked");
+  };
+
+  const handleDeleteModalConfirm = () => {
+    console.log("Delete save clicked");
+  };
 
   return (
     <>
@@ -81,12 +121,37 @@ export default function Goals() {
                       }}
                     />
                   </CardContent>
+                  <CardActions>
+                    <Box display="flex" justifyContent="space-between">
+                      <IconButton onClick={() => handleEditClick(goal)}>
+                        <Edit />
+                      </IconButton>
+                      <IconButton onClick={() => handleDeleteClick(goal)}>
+                        <Delete />
+                      </IconButton>
+                    </Box>
+                  </CardActions>
                 </Card>
               </Grid>
             ))}
           </Grid>
         </Box>
       </Box>
+      {/* Edit Modal */}
+      <EditModal
+        goal={editGoal}
+        open={isEditModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        onEditSave={handleEditModalSave}
+      />
+
+      {/* Delete Modal */}
+      <DeleteModal
+        goal={deleteGoal}
+        open={isDeleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onDeleteConfirmed={handleDeleteModalConfirm}
+      />
     </>
   );
 }

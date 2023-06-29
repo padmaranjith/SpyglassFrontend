@@ -7,6 +7,7 @@ export type UserData={
     locale: string;
     name: string;
     email_verified:boolean;
+    picture:string;
 }
 
 //Define the goal data
@@ -56,7 +57,7 @@ export const goalApi=createApi({
                 return {
                     method: 'POST',
                     url: '/logout',
-                    
+                   
                 }
             }
         }),
@@ -66,7 +67,32 @@ export const goalApi=createApi({
         getGoalById:builder.query<GoalData,number>({
             query: (goalId) => `/goal/${goalId}/`,
           }), 
-
+          
+          updateGoal: builder.mutation<GoalData,GoalData>({
+            query: goal => ({
+              method: 'PUT',
+              url: `/goal/${goal.goalId}`,
+              body: goal,
+            })
+        }),
+        
+        updateAmount:builder.mutation<void, { goalId: number; savedamount: number }>({
+             query: ({ goalId, savedamount }) => {
+                return {
+                    method: 'PUT',
+                    url: `/goal/${goalId}/savedamount?savedAmount=${savedamount}`,                     
+                    
+                }
+            }
+        }),
+        deleteGoal: builder.mutation<void, number>({
+            query: goalId => {
+                return {
+                    method: 'DELETE',
+                    url:`/goal/${goalId}`
+                }
+            }
+        }),
     }),
 });
 
@@ -76,5 +102,8 @@ useGetAllImagesQuery,
 useGetUserInfoQuery,
 useLogoutMutation,
 useGetAllGoalsByUserIdQuery,
-useGetGoalByIdQuery
+useGetGoalByIdQuery,
+useDeleteGoalMutation,
+useUpdateAmountMutation,
+useUpdateGoalMutation
 }=goalApi;
