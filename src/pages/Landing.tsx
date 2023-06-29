@@ -1,6 +1,6 @@
 import { Button, Container, Typography, styled, Box } from "@mui/material";
 import { FcGoogle } from "react-icons/fc";
-import homeImg from "../images/Homepageimg.jpg";
+//import homeImg from "../images/Homepageimg.jpg";
 import NavBar from "../components/NavBar";
 
 export default function Landing() {
