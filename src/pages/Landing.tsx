@@ -4,6 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import NavBar from "../components/NavBar";
 
 export default function Landing() {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const CustomBox = styled(Box)(({ theme }) => ({
     display: "flex",
     justifyContent: "center",
@@ -58,9 +59,7 @@ export default function Landing() {
                   variant="contained"
                   size="large"
                   startIcon={<FcGoogle />}
-                  onClick={() =>
-                    window.location.replace("http://localhost:5000/signin")
-                  }
+                  onClick={() => window.location.replace(apiUrl + "/signin")}
                 >
                   <span style={{ marginRight: "0.5em" }} /> Login with Google
                 </Button>
