@@ -59,7 +59,7 @@ export default function Landing() {
                   variant="contained"
                   size="large"
                   startIcon={<FcGoogle />}
-                  onClick={() => window.location.replace(apiUrl + "/signin")}
+                  onClick={() => window.location.replace(apiUrl + "signin")}
                 >
                   <span style={{ marginRight: "0.5em" }} /> Login with Google
                 </Button>
